@@ -1,4 +1,5 @@
 var currentTimer = 120;
+var timerCount;
 const questions = [
     {
         question: "What color is the sky?",
@@ -9,7 +10,7 @@ const questions = [
 
 function runTimer () {
     //starts timer countdown
-    var timerCount = setInterval(function () {
+    timerCount = setInterval(function () {
         currentTimer--;
         $("#timer-bar").html("Time: " + currentTimer + " seconds");
         //transitions to results page when time is up
@@ -30,13 +31,14 @@ $(document).ready(function () {
     $("#btn-start").click(function() {
         displayPage("#title-screen", "#question-screen");
         runTimer();
-        startQuiz();
+        askQuestion(0);
     });
 });
 
-function startQuiz () {
-    var currentQuestion = 0;
-
+function askQuestion (currentQuestion) {
+    var currentQuestion = currentQuestion;
+    
+    console.log(currentTimer);
     if (currentQuestion < questions.length) {
         $("#question-text").text(questions[currentQuestion].question);
         $("#btn-answer-1").text(questions[currentQuestion].choices[0]);
@@ -45,20 +47,23 @@ function startQuiz () {
         $("#btn-answer-4").text(questions[currentQuestion].choices[3]);
     }
 
-    $("#question-screen").on("click", "button", function () {
-        switch ($(this).attr("number")) {
-            case "1":
-                console.log("1");
-                break;
-            case "btn-answer-2":
-                $(this).text(checkTriviaAnswer(1, correctAnswerPosition));
-                break;
-            case "btn-answer-3":
-                $(this).text(checkTriviaAnswer(2, correctAnswerPosition));
-                break;
-             case "btn-answer-4":
-                $(this).text(checkTriviaAnswer(3, correctAnswerPosition));
-                break;       
+    $("#question-screen").on("click", "button", function () {     
+        var userAnswer = $(this).text();
+        var correctAnswer = questions[currentQuestion].correct;    
+        console.log(questions.length);    
+        console.log(currentQuestion);
+        currentQuestion++;
+
+        if (currentQuestion + 1 > questions.length - 1 || currentTimer <= 0) {
+            clearInterval(timerCount);
+            endQuiz(currentTimer);
+        } else {
+            askQuestion(currentQuestion + 1);
         }
     });
+}
+
+function endQuiz (finalScore) {
+    displayPage("#question-screen", "#result-screen");
+    $("#final-score").text(finalScore);
 }
