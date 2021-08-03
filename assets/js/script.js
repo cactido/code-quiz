@@ -1,4 +1,4 @@
-var currentTimer = 121;
+var currentTimer = 12;
 
 function runTimer () {
     var timerCount = setInterval(function () {
@@ -7,15 +7,19 @@ function runTimer () {
 
         if (currentTimer <= 0) {
             clearInterval(timerCount);
-            $("#timer-bar").html("Time's up!");
+            displayPage("#question-screen", "#result-screen");
         }
     }, 1000)
+}
+//hides current div and displays a new one
+function displayPage (remove, display) {
+    $(remove).removeClass("visible").addClass("hidden");
+    $(display).removeClass("hidden").addClass("visible");
 }
 
 $(document).ready(function () {
     $("#btn-start").click(function() {
-        $("#title-screen").removeClass("visible").addClass("hidden");
-        $("#question-screen").removeClass("hidden").addClass("visible");
+        displayPage("#title-screen", "#question-screen");
         runTimer();
     });
 });
