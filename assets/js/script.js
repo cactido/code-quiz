@@ -46,20 +46,34 @@ function askQuestion (currentQuestion) {
         $("#btn-answer-3").text(questions[currentQuestion].choices[2]);
         $("#btn-answer-4").text(questions[currentQuestion].choices[3]);
     }
-
+    //waits for player to select an answer
     $("#question-screen").on("click", "button", function () {     
         var userAnswer = $(this).text();
+        var answerDelay = 2;
         var correctAnswer = questions[currentQuestion].correct;    
-        console.log(questions.length);    
-        console.log(currentQuestion);
-        currentQuestion++;
+        
+        console.log(correctAnswer === userAnswer);
 
-        if (currentQuestion + 1 > questions.length - 1 || currentTimer <= 0) {
-            clearInterval(timerCount);
-            endQuiz(currentTimer);
+        if (userAnswer === correctAnswer) {
+            $("#answer-response").text("Correct!");
         } else {
-            askQuestion(currentQuestion + 1);
+            $("#answer-response").text("Wrong!");
         }
+        //displays correct/incorrect message for 0.5 seconds, then moves to the next question or ends the quiz
+        answerTimer = setInterval(function () {
+            answerDelay--;
+            if (answerDelay <= 0) {
+                clearInterval(answerTimer);
+                currentQuestion++
+                $("#answer-response").text("");
+
+                if (currentQuestion > questions.length - 1 || currentTimer <= 0) {
+                    clearInterval(timerCount);
+                    endQuiz(currentTimer);
+                }
+                askQuestion(currentQuestion);  
+            }
+         }, 500);
     });
 }
 
