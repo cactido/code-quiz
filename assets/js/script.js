@@ -1,25 +1,38 @@
 var currentTimer = 120;
-var timerCount;
+
 const questions = [
     {
         question: 'What color is the sky?',
         choices: ['Blue', 'Red', 'Yellow', 'Pink'],
         correct: 'Blue'
+    },
+    {
+        question: 'Commonly used data types do NOT include which of the following?',
+        choices: ['Strings', 'Booleans', 'Alerts', 'Numbers'],
+        correct: 'Alerts'
+    },
+    {
+        question: 'Arrays in JavaScript can be used to store which of the following?',
+        choices: ['Number and strings', 'Other arrays', 'Booleans', 'All of the above'],
+        correct: 'All of the above'
+    },
+    {
+        question: 'The condition in an if/else statment is enclosed within which of the following?',
+        choices: ['Quotes', 'Curly brackets', 'Parenthesis', 'Square brackets'],
+        correct: 'Parenthesis'
+    },
+    {
+        question: 'String values must be enclosed within what when being assigned to variables?',
+        choices: ['Commas', 'Curly brackets', 'Quotes', 'Parenthesis'],
+        correct: 'Quotes'
+    },
+    {
+        question: 'Which of these is a tool for printing content to the debugger?',
+        choices: ['JavaScript', 'Terminal/bash', 'for loops', 'console.log()'],
+        correct: 'console.log()'
     }
-]
+];
 
-function runTimer() {
-    timerCount = setInterval(function () {
-        currentTimer--;
-        $('#timer-bar').text('Time: ' + currentTimer + ' seconds');
-        //transitions to results page when time is up
-        currentTimer = currentTimer;
-        if (currentTimer <= 0) {
-            clearInterval(timerCount);
-            endQuiz(0);
-        }
-    }, 1000)
-}
 //hides divs and displays the requested one (display)
 function displayPage(display) {
     //hides all classes
@@ -30,41 +43,42 @@ function displayPage(display) {
     //set the requested section to visible
     $(display).removeClass('hidden').addClass('visible');
 }
-
+//displays question/answers for the requested question
 function askQuestion(currentQuestion) {
     var currentQuestion = currentQuestion;
-    //renders current question and answer choices
-    console.log(currentTimer);
+    
+    //renders current question and answer choices and resets button colors
     if (currentQuestion < questions.length) {
         $('#question-text').text(questions[currentQuestion].question);
-        $('#btn-answer-1').text(questions[currentQuestion].choices[0]);
-        $('#btn-answer-2').text(questions[currentQuestion].choices[1]);
-        $('#btn-answer-3').text(questions[currentQuestion].choices[2]);
-        $('#btn-answer-4').text(questions[currentQuestion].choices[3]);
+        $('#btn-answer-1').text(questions[currentQuestion].choices[0]).css('background-color', 'rgb(77, 79, 168)');
+        $('#btn-answer-2').text(questions[currentQuestion].choices[1]).css('background-color', 'rgb(77, 79, 168)');
+        $('#btn-answer-3').text(questions[currentQuestion].choices[2]).css('background-color', 'rgb(77, 79, 168)');
+        $('#btn-answer-4').text(questions[currentQuestion].choices[3]).css('background-color', 'rgb(77, 79, 168)');
     }
     //waits for player to select an answer
-    $('#question-screen').on('click', 'button', function () {
+    $('#question-screen').off().on('click', 'button', function () {
         var userAnswer = $(this).text();
         var answerDelay = 2;
         var correctAnswer = questions[currentQuestion].correct;
 
-        console.log(correctAnswer === userAnswer);
+        if (currentTimer <= 0) {
+            endQuiz(0);
+        }
 
+        //changes button color to green (correct answer) or red (wrong answer)
         if (userAnswer === correctAnswer) {
             $(this).css('background-color', 'green');
         } else {
             $(this).css('background-color', 'red');
-            currentTimer -= 15;         //subtract 15 seconds from the timer on an incorrect answer
+            currentTimer -= 15;
         }
-        //displays correct/incorrect message for 0.5 seconds, then moves to the next question or ends the quiz
-        answerTimer = setInterval(function () {
+        //displays the button highlight for 0.5 seconds, then moves to the next question or ends the quiz
+        var answerTimer = setInterval(function () {
             answerDelay--;
             if (answerDelay <= 0) {
                 clearInterval(answerTimer);
-                currentQuestion++
-                $('#answer-response').text('');
-
-                if (currentQuestion > questions.length - 1 || currentTimer <= 0) {
+                currentQuestion++;
+                if (currentQuestion > questions.length - 1) {
                     clearInterval(timerCount);
                     endQuiz(currentTimer);
                 }
@@ -147,22 +161,33 @@ function highestScore(scores) {
 }
 
 //renders the highscore table when the Highscores link is clicked
-$(document).on('click', 'a', function () {
+$(document).off().on('click', 'a', function () {
     highscoreTable();
 });
 //starts timer and shows question screen when start quiz button is clicked
-$('#btn-start').on('click', function () {
+$('#btn-start').off().on('click', function () {
+    currentTimer = 120;
+    timerCount = setInterval(function () {
+        currentTimer--;
+        $('#timer-bar').text('Time: ' + currentTimer + ' seconds');
+        //transitions to results page when time is up
+        console.log(currentTimer);
+        if (currentTimer <= 0) {
+            clearInterval(timerCount);
+            endQuiz(0);
+        }
+    }, 1000)
+
     displayPage('#question-screen');
-    runTimer();
     askQuestion(0);
 });
 //reload the page when the start over button is clicked on the highscore tablefs
-$('#btn-again').on('click', function () {
+$('#btn-again').off().on('click', function () {
     location.reload();
 });
 //clears the localStorage of highscores when the Clear Scores
 //button is clicked
-$('#btn-clear').on('click', function () {
+$('#btn-clear').off().on('click', function () {
     localStorage.clear();
     highscoreTable();
 })
