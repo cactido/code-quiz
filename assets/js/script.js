@@ -1,11 +1,6 @@
-var currentTimer = 120;
+var currentTimer = 60;
 
 const questions = [
-    {
-        question: 'What color is the sky?',
-        choices: ['Blue', 'Red', 'Yellow', 'Pink'],
-        correct: 'Blue'
-    },
     {
         question: 'Commonly used data types do NOT include which of the following?',
         choices: ['Strings', 'Booleans', 'Alerts', 'Numbers'],
