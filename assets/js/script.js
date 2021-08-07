@@ -20,7 +20,7 @@ function runTimer () {
         }
     }, 1000)
 }
-//hides current div and displays a new one
+//hides current div (remove) and displays a new one (display)
 function displayPage (remove, display) {
     $(remove).removeClass("visible").addClass("hidden");
     $(display).removeClass("hidden").addClass("visible");
@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 function askQuestion (currentQuestion) {
     var currentQuestion = currentQuestion;
-    
+    //renders current question and answer choices
     console.log(currentTimer);
     if (currentQuestion < questions.length) {
         $("#question-text").text(questions[currentQuestion].question);
@@ -76,8 +76,23 @@ function askQuestion (currentQuestion) {
          }, 500);
     });
 }
-
 function endQuiz (finalScore) {
     displayPage("#question-screen", "#result-screen");
     $("#final-score").text(finalScore);
+    $("#btn-initials").click(function () {
+        var userInitials = $("#user-initials").val();
+        if (!userInitials) {
+            alert('Please enter your initials.');
+        } else {
+            highscoreTable(userInitials);
+        }
+    });
 }
+
+function highscoreTable (initials) {
+    displayPage("#result-screen", "#highscores");
+}
+
+$(document).on('click', 'a', function () {
+
+});

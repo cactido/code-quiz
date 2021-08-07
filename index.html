@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./assets/js/script.js"></script>
 </head>
 <body>
 
@@ -31,7 +30,11 @@
 
 <div id="result-screen" class="hidden">
     <h1>Time's Up!</h1>
-    <p>Your Score: <div id="final-score"></div></p>
+    <p>Your Score: <span id="final-score"></span></p>
+    <p>
+        Enter your initials: <input type="text" id="user-initials" max="4" />
+        <button id="btn-initials">Submit</button>
+    </p>
 </div>
 
 <div id="highscores" class="hidden">
@@ -40,3 +43,5 @@
     
 </body>
 </html>
+
+<script src="./assets/js/script.js"></script>
