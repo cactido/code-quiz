@@ -2,9 +2,9 @@ var currentTimer = 120;
 var timerCount;
 const questions = [
     {
-        question: "What color is the sky?",
-        choices: ["Blue", "Red", "Yellow", "Pink"],
-        correct: "Blue"
+        question: 'What color is the sky?',
+        choices: ['Blue', 'Red', 'Yellow', 'Pink'],
+        correct: 'Blue'
     }
 ]
 
@@ -12,24 +12,29 @@ function runTimer () {
     //starts timer countdown
     timerCount = setInterval(function () {
         currentTimer--;
-        $("#timer-bar").html("Time: " + currentTimer + " seconds");
+        $('timer-bar').html('Time: ' + currentTimer + ' seconds');
         //transitions to results page when time is up
         if (currentTimer <= 0) {
             clearInterval(timerCount);
-            displayPage("#question-screen", "#result-screen");
+            displayPage('#result-screen');
         }
     }, 1000)
 }
-//hides current div (remove) and displays a new one (display)
-function displayPage (remove, display) {
-    $(remove).removeClass("visible").addClass("hidden");
-    $(display).removeClass("hidden").addClass("visible");
+//hides divs and displays the requested one (display)
+function displayPage (display) {
+    //hides all classes
+    $('#title-screen').removeClass('visible').addClass('hidden');
+    $('#question-screen').removeClass('visible').addClass('hidden');
+    $('#result-screen').removeClass('visible').addClass('hidden');
+    $('#highscores').removeClass('visible').addClass('hidden');
+    //set the requested section to visible
+    $(display).removeClass('hidden').addClass('visible');
 }
 
 $(document).ready(function () {
     //starts timer and shows question screen when start quiz button is clicked
-    $("#btn-start").click(function() {
-        displayPage("#title-screen", "#question-screen");
+    $('#btn-start').click(function() {
+        displayPage('#question-screen');
         runTimer();
         askQuestion(0);
     });
@@ -40,14 +45,14 @@ function askQuestion (currentQuestion) {
     //renders current question and answer choices
     console.log(currentTimer);
     if (currentQuestion < questions.length) {
-        $("#question-text").text(questions[currentQuestion].question);
-        $("#btn-answer-1").text(questions[currentQuestion].choices[0]);
-        $("#btn-answer-2").text(questions[currentQuestion].choices[1]);
-        $("#btn-answer-3").text(questions[currentQuestion].choices[2]);
-        $("#btn-answer-4").text(questions[currentQuestion].choices[3]);
+        $('#question-text').text(questions[currentQuestion].question);
+        $('#btn-answer-1').text(questions[currentQuestion].choices[0]);
+        $('#btn-answer-2').text(questions[currentQuestion].choices[1]);
+        $('#btn-answer-3').text(questions[currentQuestion].choices[2]);
+        $('#btn-answer-4').text(questions[currentQuestion].choices[3]);
     }
     //waits for player to select an answer
-    $("#question-screen").on("click", "button", function () {     
+    $('#question-screen').on('click', 'button', function () {     
         var userAnswer = $(this).text();
         var answerDelay = 2;
         var correctAnswer = questions[currentQuestion].correct;    
@@ -55,9 +60,9 @@ function askQuestion (currentQuestion) {
         console.log(correctAnswer === userAnswer);
 
         if (userAnswer === correctAnswer) {
-            $("#answer-response").text("Correct!");
+            $('#answer-response').text('Correct!');
         } else {
-            $("#answer-response").text("Wrong!");
+            $('#answer-response').text('Wrong!');
         }
         //displays correct/incorrect message for 0.5 seconds, then moves to the next question or ends the quiz
         answerTimer = setInterval(function () {
@@ -65,7 +70,7 @@ function askQuestion (currentQuestion) {
             if (answerDelay <= 0) {
                 clearInterval(answerTimer);
                 currentQuestion++
-                $("#answer-response").text("");
+                $('#answer-response').text('');
 
                 if (currentQuestion > questions.length - 1 || currentTimer <= 0) {
                     clearInterval(timerCount);
@@ -76,11 +81,15 @@ function askQuestion (currentQuestion) {
          }, 500);
     });
 }
+//switches to result screen and inputs user's initials for highscore table
+//when the timer ends or when the user answers the last question
 function endQuiz (finalScore) {
-    displayPage("#question-screen", "#result-screen");
-    $("#final-score").text(finalScore);
-    $("#btn-initials").click(function () {
-        var userInitials = $("#user-initials").val();
+    displayPage('#result-screen');
+    $('#final-score').text(finalScore);
+    //makes sure initials aren't blank or too long and sends
+    // them to the highscore table rendering function
+    $('#btn-initials').click(function () {
+        var userInitials = $('#user-initials').val();
         if (!userInitials) {
             alert('Please enter your initials.');
         } else {
@@ -90,9 +99,9 @@ function endQuiz (finalScore) {
 }
 
 function highscoreTable (initials) {
-    displayPage("#result-screen", "#highscores");
+    displayPage('#highscores');
 }
-
+//renders the highscore table when the Highscores link is clicked
 $(document).on('click', 'a', function () {
-
+    displayPage('#highscores');
 });
