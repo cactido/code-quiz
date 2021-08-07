@@ -1,7 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
 .hidden {
     display:none;
 }
 
 .visible {
     display:block;
+}
+
+button {
+    display: inline-block;
+    margin: 10px;
+    padding: 3px 10px;
+    background-color: rgb(77, 79, 168);
+    border-radius: 5px;
+    border: 0px;
+    color: white;
+    font-size: 18px;
+}
+
+button:hover {
+    background-color: rgb(148, 150, 231);
+}
+
+.choices button {
+    display: block;
+    width: 100%;
 }

@@ -94,7 +94,10 @@ function endQuiz(finalScore) {
         if (!userInitials || userInitials.length > 4) {
             alert('Please enter up to four letters as your initials.');
         } else {
-            localStorage.setItem(userInitials, finalScore);
+            //add the number of keys in localStorage to the end of the user-entered
+            //initials to allow for multiple entries with the same initials
+            var scoreNumber = Object.keys(localStorage).length;
+            localStorage.setItem(userInitials + ':' + scoreNumber, finalScore);
             highscoreTable();
         }
     });
@@ -115,13 +118,17 @@ function highscoreTable() {
     var scoreCount = scores.length,
         highscoreTable = [],
         sortedScores = [];
+
     while (scoreCount > 0) {
         //find the index of the highest score
         var highestIndex = highestScore(scores);
-        //add the highest remaining score and corresponding initials
-        //to the highscore table
+        //add the highest remaining score to the highscore table
         sortedScores.push(scores[highestIndex]);
-        currentEntry = '[' + initials[highestIndex] + '] ' + scores[highestIndex];
+        //remove the count that was added to the initials so only the
+        //initials are displayed
+        var splitInitials = initials[highestIndex].split(':');
+        var displayInitials = splitInitials[0];
+        currentEntry = '[' + displayInitials + '] ' + scores[highestIndex];
         highscoreTable.push(currentEntry);
         //remove the score and initials from the original array so 
         //they aren't compared to again
@@ -129,6 +136,8 @@ function highscoreTable() {
         initials.splice(highestIndex, 1);
         scoreCount--;
     }
+    //clear the table so the new sorted list isn't appended to the old
+    $('#highscore-table').empty();
     //display the sorted highscores
     for (let i = 0; i < highscoreTable.length; i++) {
         $('#highscore-table').append('<li>' + highscoreTable[i]);
