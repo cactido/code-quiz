@@ -103,16 +103,45 @@ function endQuiz(finalScore) {
 function highscoreTable() {
     displayPage('#highscores');
     //retrieves keys and value pairs from localStorage, then stores them in arrays
-    var highscores = [],
+    var scores = [],
         initials = [],
-        keys = Object.keys(localStorage),
-        i = keys.length;
+        keys = Object.keys(localStorage);
 
-    while (i--) {
-        highscores.push(localStorage.getItem(keys[i]));
+    for (let i = 0; i < keys.length; i++) {
+        scores.push(localStorage.getItem(keys[i]));
         initials.push(keys[i]);
     }
-        
+    //sorts scores, highest to lowest
+    var scoreCount = scores.length,
+        highscoreTable = [],
+        sortedScores = [];
+    while (scoreCount > 0) {
+        //find the index of the highest score
+        var highestIndex = highestScore(scores);
+        //add the highest remaining score and corresponding initials
+        //to the highscore table
+        sortedScores.push(scores[highestIndex]);
+        currentEntry = '[' + initials[highestIndex] + '] ' + scores[highestIndex];
+        highscoreTable.push(currentEntry);
+        //remove the score and initials from the original array so 
+        //they aren't compared to again
+        scores.splice(highestIndex, 1);
+        initials.splice(highestIndex, 1);
+        scoreCount--;
+    }
+    console.log(highscoreTable);
+}
+
+//returns index of the highest score
+function highestScore(scores) {
+    var highest = 0;
+    for (i = 0; i < scores.length; i++) {
+        console.log('current highest:' + scores[highest]);
+        if (parseInt(scores[i]) >= parseInt(scores[highest])) {
+            highest = i;
+        }
+    }
+    return highest;
 }
 
 //renders the highscore table when the Highscores link is clicked
