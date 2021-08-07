@@ -9,14 +9,14 @@ const questions = [
 ]
 
 function runTimer() {
-    //starts timer countdown
     timerCount = setInterval(function () {
         currentTimer--;
-        $('timer-bar').html('Time: ' + currentTimer + ' seconds');
+        $('#timer-bar').text('Time: ' + currentTimer + ' seconds');
         //transitions to results page when time is up
+        currentTimer = currentTimer;
         if (currentTimer <= 0) {
             clearInterval(timerCount);
-            displayPage('#result-screen');
+            endQuiz(0);
         }
     }, 1000)
 }
@@ -30,15 +30,6 @@ function displayPage(display) {
     //set the requested section to visible
     $(display).removeClass('hidden').addClass('visible');
 }
-
-$(document).ready(function () {
-    //starts timer and shows question screen when start quiz button is clicked
-    $('#btn-start').click(function () {
-        displayPage('#question-screen');
-        runTimer();
-        askQuestion(0);
-    });
-});
 
 function askQuestion(currentQuestion) {
     var currentQuestion = currentQuestion;
@@ -60,9 +51,9 @@ function askQuestion(currentQuestion) {
         console.log(correctAnswer === userAnswer);
 
         if (userAnswer === correctAnswer) {
-            $('#answer-response').text('Correct!').css('color', 'green');
+            $(this).css('background-color', 'green');
         } else {
-            $('#answer-response').text('Wrong!').css('color', 'red');
+            $(this).css('background-color', 'red');
             currentTimer -= 15;         //subtract 15 seconds from the timer on an incorrect answer
         }
         //displays correct/incorrect message for 0.5 seconds, then moves to the next question or ends the quiz
@@ -159,3 +150,19 @@ function highestScore(scores) {
 $(document).on('click', 'a', function () {
     highscoreTable();
 });
+//starts timer and shows question screen when start quiz button is clicked
+$('#btn-start').on('click', function () {
+    displayPage('#question-screen');
+    runTimer();
+    askQuestion(0);
+});
+//reload the page when the start over button is clicked on the highscore tablefs
+$('#btn-again').on('click', function () {
+    location.reload();
+});
+//clears the localStorage of highscores when the Clear Scores
+//button is clicked
+$('#btn-clear').on('click', function () {
+    localStorage.clear();
+    highscoreTable();
+})

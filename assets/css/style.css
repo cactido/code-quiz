@@ -1,5 +1,44 @@
 * {
     box-sizing: border-box;
+    padding: 2px 2px;
+}
+
+.wrapper {
+    width: 800px;
+}
+
+body {
+    font-family: Helvetica, sans-serif;
+    color: black;
+}
+
+a {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: rgb(209, 173, 55)
+}
+
+h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+h2 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#question-text {
+    margin: 10px 0 0 5px;
+}
+
+.title-screen {
+    text-align: center;
 }
 
 .hidden {
@@ -10,9 +49,17 @@
     display:block;
 }
 
+#highscore-table {
+    margin-left: 10%;
+}
+
+#timer-bar {
+    float: right;
+}
+
 button {
-    display: inline-block;
-    margin: 10px;
+    display: inline;
+    margin: 5%;
     padding: 3px 10px;
     background-color: rgb(77, 79, 168);
     border-radius: 5px;
@@ -28,4 +75,5 @@ button:hover {
 .choices button {
     display: block;
     width: 100%;
+    margin: 0 5px 5px 5px;
 }

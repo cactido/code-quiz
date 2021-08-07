@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,42 +10,49 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
 
-<div id="title-bar"><a href = "#">Highscores</a> | <span id="timer-bar">Time: 120 seconds</span></div>
+    <div class="wrapper">
+        <div id="title-bar"><a href="#">View Highscores</a><span id="timer-bar">Time: 120 seconds</span></div>
 
-<div id="title-screen" class="visible">
-    <h1>Coding Quiz</h1>
-    <button id="btn-start">Start Quiz</button>
-</div>
+        <div id="title-screen" class="visible">
+            <h1>Coding Quiz</h1>
+            <center><button id="btn-start">Start Quiz</button></center>
+        </div>
 
-<div id="question-screen" class="hidden">
-    <h1>Question 1</h1>
-    <h2 id="question-text"></h2>
-    <button id="btn-answer-1">Answer</button><br />
-    <button id="btn-answer-2">Answer</button><br />
-    <button id="btn-answer-3">Answer</button><br />
-    <button id="btn-answer-4">Answer</button><br />
-    <h1 id="answer-response"></h1>
-</div>
+        <div id="question-screen" class="hidden">
+            <h2 id="question-text"></h2>
+            <section class="choices">
+                <button id="btn-answer-1">Answer</button>
+                <button id="btn-answer-2">Answer</button>
+                <button id="btn-answer-3">Answer</button>
+                <button id="btn-answer-4">Answer</button>
+            </section>
+        </div>
 
-<div id="result-screen" class="hidden">
-    <h1>Time's Up!</h1>
-    <p>Your Score: <span id="final-score"></span></p>
-    <p>
-        Enter your initials: <input type="text" id="user-initials" max="4" />
-        <button id="btn-initials">Submit</button>
-    </p>
-</div>
+        <div id="result-screen" class="hidden">
+            <h1>Time's Up!</h1>
+            <p>Your Score: <span id="final-score"></span></p>
+            <p>
+                Enter your initials: <input type="text" id="user-initials" max="4"><button
+                    id="btn-initials">Submit</button>
+            </p>
+        </div>
 
-<div id="highscores" class="hidden">
-    <h1>Highscores</h1>
-    <ol>
-        <section id="highscore-table"></section>
-    </ol>
-</div>
-    
+        <div id="highscores" class="hidden">
+            <h1>Highscores</h1>
+            <ol>
+                <section id="highscore-table"></section>
+            </ol>
+            <center>
+                <button id="btn-clear">Clear Highscores</button> <button id="btn-again">Start Over</button>
+            </center>
+        </div>
+    </div>
+
 </body>
+
 </html>
 
 <script src="./assets/js/script.js"></script>
