@@ -129,14 +129,16 @@ function highscoreTable() {
         initials.splice(highestIndex, 1);
         scoreCount--;
     }
-    console.log(highscoreTable);
+    //display the sorted highscores
+    for (let i = 0; i < highscoreTable.length; i++) {
+        $('#highscore-table').append('<li>' + highscoreTable[i]);
+    }
 }
 
 //returns index of the highest score
 function highestScore(scores) {
     var highest = 0;
     for (i = 0; i < scores.length; i++) {
-        console.log('current highest:' + scores[highest]);
         if (parseInt(scores[i]) >= parseInt(scores[highest])) {
             highest = i;
         }
@@ -146,5 +148,5 @@ function highestScore(scores) {
 
 //renders the highscore table when the Highscores link is clicked
 $(document).on('click', 'a', function () {
-    displayPage('#highscores')
+    highscoreTable();
 });
