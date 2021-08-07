@@ -161,7 +161,6 @@ $(document).off().on('click', 'a', function () {
 });
 //starts timer and shows question screen when start quiz button is clicked
 $('#btn-start').off().on('click', function () {
-    currentTimer = 120;
     timerCount = setInterval(function () {
         currentTimer--;
         $('#timer-bar').text('Time: ' + currentTimer + ' seconds');
